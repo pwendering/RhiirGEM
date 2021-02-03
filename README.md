@@ -9,7 +9,7 @@ This repository contains all code and result files that were generated to analys
 ## Requirements
 * IBM CPLEX solver
 * MATLAB (tested with MATLAB 2017b)
-* COBRA toolbox [https://github.com/opencobra/cobratoolbox](https://github.com/opencobra/cobratoolbox)
+* COBRA toolbox for MATLAB [https://github.com/opencobra/cobratoolbox](https://github.com/opencobra/cobratoolbox)
 * R packages:  wesanderson, plotrix, scales, pheatmap, ape
 ## Repository structure
 *
