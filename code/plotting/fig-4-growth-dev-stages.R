@@ -2,20 +2,12 @@
 library(wesanderson)
 
 writeToFile = T
-# get operating system type
-os = .Platform$OS.type
-
-if (os == "unix") {
-  topDir = "/stud/wendering/Documents/Rhizophagus_irregularis_GEM/"
-} else if (os == "windows") {
-  topDir = "C:\\Users/wende/MobaXterm/home/rhizophagus_irregularis_gem/"
-}
 
 # save default graphical parameters
 originalPar = par()
 
 # read predicted growth rates from file
-inFile <- paste(topDir, "analysis/growth-simulation/growth-rates-dev-stages.csv", sep = "")
+inFile <- paste(topDir, "results/developmental-stages/growth-rates-dev-stages.csv", sep = "")
 data <- read.table(inFile, header = T, row.names = 1)
 
 # predicted growth rates

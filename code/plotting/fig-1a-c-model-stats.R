@@ -3,20 +3,12 @@
 library("wesanderson")
 
 writeToFile = T
-os = .Platform$OS.type
-
-# adapt input and output files based on the operating system
-if (os == "unix") {
-  topDir = "/stud/wendering/Documents/Rhizophagus_irregularis_GEM/"
-} else if (os == "windows") {
-  topDir = "C:\\Users/wende/MobaXterm/home/rhizophagus_irregularis_gem/"
-}
 
 # load general plotting functions and variables
-load(paste(topDir,"R_scripts/rhiir_gem_plotting.rdata", sep = ""))
+load("code/plotting/rhiir_gem_plotting.rdata")
 
-inputDir <- paste(topDir, "analysis/stats/", sep = "")
-outputDir <- paste(topDir, "analysis/figures/", sep = "")
+inputDir = "results/stats/"
+outputDir = "results/figures"
 
 if (writeToFile) {
   png(paste(outputDir, "model-stats.png", sep = ""), units = "cm",
@@ -27,32 +19,32 @@ if (writeToFile) {
 originalPar = par();
 
 # figure setting: 2 by 2 panels
-par(mfrow=c(2,2))
+par(mfrow = c(2,2))
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ read data from file ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 # read list of subsystems
-subSystemListFile <- paste(topDir, "analysis/growth-simulation/subsystems.lst", sep = "")
-subSystemList <- read.table(subSystemListFile, header = F, sep = "\t")
+subSystemListFile = "results/subsystems.lst"
+subSystemList = read.table(subSystemListFile, header = F, sep = "\t")
 subSystemList = unlist(subSystemList)
 uniqueSubsystems = unique(subSystemList)
 
 # create a list with all model statistics
 stat = list()
-stat$general <- read_stat_file(paste(inputDir, "model_stats.txt", sep = ""))
-stat$thermodynamics <- read_stat_file(paste(inputDir, "thermodynamics.txt", sep = ""))
-stat$balancing <- read_stat_file(paste(inputDir, "balancing.txt", sep = ""))
-stat$generic_reactions <- read_stat_file(paste(inputDir, "generic_reactions.txt", sep = ""))
-stat$co_lco <- read_stat_file(paste(inputDir, "co_lco.txt", sep = ""))
-stat$lipid <- read_stat_file(paste(inputDir, "lipid_stats.txt", sep = ""))
+stat$general = read_stat_file(paste(inputDir, "model_stats.txt", sep = ""))
+stat$thermodynamics = read_stat_file(paste(inputDir, "thermodynamics.txt", sep = ""))
+stat$balancing = read_stat_file(paste(inputDir, "balancing.txt", sep = ""))
+stat$generic_reactions = read_stat_file(paste(inputDir, "generic_reactions.txt", sep = ""))
+stat$co_lco = read_stat_file(paste(inputDir, "co_lco.txt", sep = ""))
+stat$lipid = read_stat_file(paste(inputDir, "lipid_stats.txt", sep = ""))
 stat$maps = read_stat_file(paste(inputDir, "kegg_map_rxns.txt", sep = ""))
-stat$subsystems <- read_stat_file(paste(inputDir, "subsystem_rxns.txt", sep = ""))
+stat$subsystems = read_stat_file(paste(inputDir, "subsystem_rxns.txt", sep = ""))
 stat$subsystems = stat$subsystems[unlist(lapply(uniqueSubsystems,
   function(x) which(gsub(names(stat$subsystems),pattern="\\.",replacement=" ")==x)))]
-stat$kcats <- read_stat_file(paste(inputDir, "kcats.txt", sep = ""))
-stat$metBRITE <- read_stat_file(paste(inputDir, "met-brite.txt", sep = ""))
-stat$metBRITEOther <- read_stat_file(paste(inputDir, "met-brite-other.txt", sep = ""))
-stat$metBRITELipids <- read_stat_file(paste(inputDir, "met-brite-lipids.txt", sep = ""))
+stat$kcats = read_stat_file(paste(inputDir, "kcats.txt", sep = ""))
+stat$metBRITE = read_stat_file(paste(inputDir, "met-brite.txt", sep = ""))
+stat$metBRITEOther = read_stat_file(paste(inputDir, "met-brite-other.txt", sep = ""))
+stat$metBRITELipids = read_stat_file(paste(inputDir, "met-brite-lipids.txt", sep = ""))
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ subsystems ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # combine subsystems with low numbers of reactions into "Other"
@@ -73,7 +65,6 @@ stat$subsystems = stat$subsystems[keepIdx]
 
 # adapt colors
 pie.col = color.palette[keepIdx]
-
 
 # order subsystems and colors based on the number of associated reactions
 idx = order(stat$subsystems, decreasing = T)
@@ -152,7 +143,7 @@ par(usr = usr)
 n_rxns = stat$general$reactions
 
 # create data matrix
-rxn_general <- matrix(c(stat$general$reactions_with_EC, n_rxns-stat$general$reactions_with_EC,
+rxn_general = matrix(c(stat$general$reactions_with_EC, n_rxns-stat$general$reactions_with_EC,
                         stat$general$transport, n_rxns-stat$general$transport,
                         stat$general$gpr, n_rxns-stat$general$gpr,
                         n_rxns-stat$general$mass_imbalanced, stat$general$mass_imbalanced,
@@ -173,7 +164,7 @@ bar.col = wes_palette("Royal1", ncol(rxn_general), type = "continuous")
 par(mar = c(5, 10, 2, 2) + 0.1)
 rev_order = ncol(rxn_general):1
 x_lim = c(0,n_rxns)
-x <- barplot(rxn_general[,rev_order],
+x = barplot(rxn_general[,rev_order],
              beside = F,
              horiz = T,
              xaxt = "n",

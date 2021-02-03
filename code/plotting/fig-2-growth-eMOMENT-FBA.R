@@ -4,32 +4,24 @@ library(plotrix)
 library(scales)
 
 writeToFile = T
-os = .Platform$OS.type
-
-# adapt input and output files based on the operating system
-if (os == "unix") {
-  topDir = "/stud/wendering/Documents/Rhizophagus_irregularis_GEM/"
-} else if (os == "windows") {
-  topDir = "C:\\Users/wende/MobaXterm/home/rhizophagus_irregularis_gem/"
-}
 
 # load general plotting functions and variables
-load(paste(topDir,"R_scripts/rhiir_gem_plotting.rdata", sep = ""))
+load("code/plotting/rhiir_gem_plotting.rdata")
 
 # save default graphical parameters
 originalPar = par()
 
 # read data from FBA and eMOMENT predictions
-enzymeFBAFile <- paste(topDir, "analysis/growth-simulation/growth.csv", sep = "")
+enzymeFBAFile <- paste(topDir, "results/carbon-sources/growth.csv", sep = "")
 eFBA <- as.matrix(read.table(enzymeFBAFile, header = T, row.names = 1))
 
-FBAFile <- paste(topDir, "analysis/growth-simulation/growth-fba.csv", sep = "")
+FBAFile <- paste(topDir, "results/carbon-sources/growth-fba.csv", sep = "")
 FBA <- as.matrix(read.table(FBAFile, header = T, row.names = 1))
 
 # define carbon source names
 cSourceNames = c("D-Glucose", "D-Fructose", "Raffinose", "Melibiose")
 
-if (writeToFile) {png(file=paste(topDir,"analysis/figures/growth_enzymeFBA.png",sep=""),
+if (writeToFile) {png(file=paste(topDir,"results/figures/growth_enzymeFBA.png",sep=""),
                       units = "cm", width = 18,height = 12,res = 600, pointsize = 8)
 }
 

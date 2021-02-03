@@ -3,23 +3,16 @@
 
 library(scales)
 
-# get type of operating system
-os = .Platform$OS.type
 writeToFile = T
-# save default
+
+# save default graphical parameters
 orgininalPar = par()
 
-if (os == "unix") {
-        topDir = "/stud/wendering/Documents/Rhizophagus_irregularis_GEM/"
-} else if (os == "windows") {
-        topDir = "C:\\Users/wende/MobaXterm/home/rhizophagus_irregularis_gem/"
-}
-
 # load general plotting functions and variables
-load(paste(topDir,"R_scripts/rhiir_gem_plotting.rdata", sep = ""))
+load("code/plotting/rhiir_gem_plotting.rdata")
 
 # read list of subsystems
-subSystemListFile <- paste(topDir, "analysis/growth-simulation/subsystems.lst", sep = "")
+subSystemListFile <- paste(topDir, "results/subsystems.lst", sep = "")
 subSystemList <- read.table(subSystemListFile, header = F, sep = "\t")
 subSystemList = unlist(subSystemList)
 uniqueSubsystems = unique(subSystemList)
@@ -28,7 +21,7 @@ uniqueSubsystems = unique(subSystemList)
 subsystemFactor = unlist(lapply(subSystemList,function(x)which(uniqueSubsystems==x)))
 
 if (writeToFile) {
-  png(paste(topDir,"analysis/figures/subsystem-cv-full-panel.png",sep=""),
+  png(paste(topDir,"results/figures/subsystem-cv-full-panel.png",sep=""),
       units = "cm", width = 15, height = 15, res = 600, pointsize = 7)
 }
 
@@ -51,7 +44,7 @@ par(mfrow=c(2,2),
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CV for proteins ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # read data from file
-proteinCVFile <- paste(topDir, "analysis/growth-simulation/protein-variances-per-subsystem.csv", sep = "")
+proteinCVFile <- paste(topDir, "results/carbon-sources/protein-variances-per-subsystem.csv", sep = "")
 protCV <- read.table(proteinCVFile, header = T, sep = "\t",na.strings = "NaN")
 
 # reorder table based on the order or unique subsystems
@@ -111,7 +104,7 @@ par(usr = usr)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CV for reactions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # read data from file
-rxnCVFile <- paste(topDir, "analysis/growth-simulation/reaction-variances-per-subsystem.csv", sep = "")
+rxnCVFile <- paste(topDir, "results/carbon-sources/reaction-variances-per-subsystem.csv", sep = "")
 rxnCV <- read.table(rxnCVFile, header = T, sep = "\t",na.strings = "NaN")
 
 # reorder table based on the order or unique subsystems
@@ -168,7 +161,7 @@ par(usr = usr)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ flux CV vs concentration CV ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # read flux CV data
-rxnProtCVFile <- paste(topDir, "analysis/growth-simulation/rxn-prot-match-cv.csv", sep = "")
+rxnProtCVFile <- paste(topDir, "results/carbon-sources/rxn-prot-match-cv.csv", sep = "")
 rxnProtCVMatch <- read.table(rxnProtCVFile, header = F, sep = "\t",na.strings = "NaN")
 rxnProtCVMatch = as.matrix(rxnProtCVMatch)
 

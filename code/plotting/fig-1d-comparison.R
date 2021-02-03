@@ -4,21 +4,13 @@ library(wesanderson)
 library(ape)
 
 writeToFile = T
-os = .Platform$OS.type
 
-# adapt input and output files based on the operating system
-if (os == "unix") {
-  topDir = "/stud/wendering/Documents/Rhizophagus_irregularis_GEM/"
-} else if (os == "windows") {
-  topDir = "C:\\MobaXterm/home/rhizophagus_irregularis_gem/"
-}
-
-filename <- paste(topDir, "analysis/fungal_models/jd_ec_class.txt", sep = "")
+filename <- paste(topDir, "results/fungal-models/jd_ec_class.txt", sep = "")
 
 # NJ / UPGMA phylogeny run on MAFFT server (MAFFT 7; 31.8.2020)
-treeFile <- paste(topDir, "analysis/fungal_models/18S_rRNAs/18S_archaeopteryx_js.tre", sep = "")
+treeFile <- paste(topDir, "results/fungal-models/18S-rRNAs/18S_archaeopteryx_js.tre", sep = "")
 
-output_dir = paste(topDir, "analysis/figures/", sep = "")
+output_dir = paste(topDir, "results/figures/", sep = "")
 
 data <- read.table(filename, header = TRUE)
 rownames(data) <- data[,1]
