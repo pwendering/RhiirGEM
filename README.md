@@ -11,8 +11,7 @@ This repository contains all code and result files that were generated to analys
 * MATLAB (tested with MATLAB 2017b)
 * COBRA toolbox for MATLAB [https://github.com/opencobra/cobratoolbox](https://github.com/opencobra/cobratoolbox)
 * R packages:  wesanderson, plotrix, scales, pheatmap, ape
-## Repository structure
-*
+
  
 
 
