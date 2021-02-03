@@ -32,18 +32,10 @@ uniqueSubsystems = unique(subSystemList)
 # create a list with all model statistics
 stat = list()
 stat$general = read_stat_file(paste(inputDir, "model_stats.txt", sep = ""))
-stat$thermodynamics = read_stat_file(paste(inputDir, "thermodynamics.txt", sep = ""))
-stat$balancing = read_stat_file(paste(inputDir, "balancing.txt", sep = ""))
-stat$generic_reactions = read_stat_file(paste(inputDir, "generic_reactions.txt", sep = ""))
-stat$co_lco = read_stat_file(paste(inputDir, "co_lco.txt", sep = ""))
-stat$lipid = read_stat_file(paste(inputDir, "lipid_stats.txt", sep = ""))
-stat$maps = read_stat_file(paste(inputDir, "kegg_map_rxns.txt", sep = ""))
 stat$subsystems = read_stat_file(paste(inputDir, "subsystem_rxns.txt", sep = ""))
 stat$subsystems = stat$subsystems[unlist(lapply(uniqueSubsystems,
   function(x) which(gsub(names(stat$subsystems),pattern="\\.",replacement=" ")==x)))]
 stat$metBRITE = read_stat_file(paste(inputDir, "met-brite.txt", sep = ""))
-stat$metBRITEOther = read_stat_file(paste(inputDir, "met-brite-other.txt", sep = ""))
-stat$metBRITELipids = read_stat_file(paste(inputDir, "met-brite-lipids.txt", sep = ""))
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ subsystems ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # combine subsystems with low numbers of reactions into "Other"
