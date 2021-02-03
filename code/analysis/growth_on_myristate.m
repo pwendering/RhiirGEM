@@ -1,6 +1,8 @@
 % general validation of the model
+clear
+clc
 
-changeCobraSolver('ibm_cplex', 'all');
+changeCobraSolver('ibm_cplex', 'all',0);
 modelFile = 'model/iRi1572.mat';
 load(modelFile)
 
@@ -48,17 +50,23 @@ s = optimizeCbModel(model);
 disp(s.f)
 
 % growth with limited palmitate uptake and without myrsitate
-disp('growth: 0.1 * 16:0')
+disp('growth: 0.1*16:0')
 model.ub(myristateUptIdx) = 0;
 model.lb(palmitateUptIdx) = 0.1*range(2);
 s = optimizeCbModel(model);
-disp(s.f)
+growthPalmRed = s.f;
+disp(growthPalmRed)
 
 % complementation of limited palmitate with myristate
-disp('growth: 0.1 * 16:0 + 14:0')
+disp('growth: 0.1*16:0 + 14:0')
 model.ub(myristateUptIdx) = myrUB;
 s = optimizeCbModel(model);
-disp(s.f)
+growthPalmRedMyr = s.f;
+disp(growthPalmRedMyr)
+
+% percent increase:
+disp('percent increase')
+disp(100*(1-growthPalmRed/growthPalmRedMyr))
 
 clearvars -except modelFile bioIdx
 
@@ -85,6 +93,3 @@ range(2) = s.x(piSinkIdx);
 
 disp('range of Pi export at optimal growth:')
 disp(range)
-
-clear
-clc
