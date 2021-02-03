@@ -21,7 +21,7 @@ FBA <- as.matrix(read.table(FBAFile, header = T, row.names = 1))
 # define carbon source names
 cSourceNames = c("D-Glucose", "D-Fructose", "Raffinose", "Melibiose")
 
-if (writeToFile) {png(file=paste(topDir,"results/figures/growth_enzymeFBA.png",sep=""),
+if (writeToFile) {png(file=paste(topDir,"results/figures/Figure-2.png",sep=""),
                       units = "cm", width = 18,height = 12,res = 600, pointsize = 8)
 }
 

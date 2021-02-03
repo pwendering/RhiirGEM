@@ -16,12 +16,12 @@ growth = data[1,]
 # growth rates predicted using +- standard deviation of total protein content
 yPos = data[2:nrow(data),]
 
-if (writeToFile) {png(file=paste(topDir,"analysis/figures/growth-dev-stages.png", sep=""),
+if (writeToFile) {png(file=paste(topDir,"analysis/figures/Figure-4.png", sep=""),
                       units = "cm", width = 12,height = 10,res = 600, pointsize = 8)}
 
 # define graphical parameters
 pal = wes_palette("Cavalcanti1", ncol(growth), type = "discrete")
-par(xpd = TRUE,mfrow=c(1,1),mar=c(4,5,2,0)+0.1)
+par(xpd = TRUE, mfrow=c(1,1), mar=c(4,5,2,0)+0.1)
 cex.axis = 1.2
 cex.lab = 1.5
 

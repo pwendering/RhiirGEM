@@ -21,7 +21,7 @@ uniqueSubsystems = unique(subSystemList)
 subsystemFactor = unlist(lapply(subSystemList,function(x)which(uniqueSubsystems==x)))
 
 if (writeToFile) {
-  png(paste(topDir,"results/figures/subsystem-cv-full-panel.png",sep=""),
+  png(paste(topDir,"results/figures/Figure-3.png",sep=""),
       units = "cm", width = 15, height = 15, res = 600, pointsize = 7)
 }
 
