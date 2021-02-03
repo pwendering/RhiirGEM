@@ -1,0 +1,9 @@
+Compartment	Reactions	Metabolites
+Cytosol	855	530
+Extracellular space	188	131
+Golgi apparatus	15	15
+Mitochrondria	1540	973
+Nucleus	18	18
+Endoplasmic reticulum	528	303
+Vacuole	15	11
+Peroxisomes	88	77

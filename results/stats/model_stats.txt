@@ -1,0 +1,17 @@
+reactions	1572
+metabolites	1277
+genes	685
+gpr	1054
+no_gpr_metabolic	944
+transport	272
+subsystems	13
+blocked	480
+blocked_transport	362
+reactions_with_EC	843
+no_EC_metabolic	468
+metabolites_CID	971
+imbalanced_reactions	95
+mass_imbalanced	83
+charge_imbalanced	45
+mass_charge_imbalanced	33
+irreversible_reactions	1029

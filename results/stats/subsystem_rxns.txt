@@ -1,0 +1,13 @@
+Amino acid metabolism	207
+Amino sugar and nucleotide sugar metabolism	31
+Carbohydrate metabolism	113
+Inositol phosphate metabolism	5
+Lipid and fatty acid metabolism	378
+Medium	28
+Metabolism of cofactors and vitamins	119
+Nucleotide metabolism	113
+Other	63
+Pseudoreaction	199
+Sink	33
+Terpenoid backbone biosynthesis	11
+Transport	272
