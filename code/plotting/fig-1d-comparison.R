@@ -8,7 +8,7 @@ writeToFile = T
 filename <- paste(topDir, "results/fungal-models/jd_ec_class.txt", sep = "")
 
 # NJ / UPGMA phylogeny run on MAFFT server (MAFFT 7; 31.8.2020)
-treeFile <- paste(topDir, "results/fungal-models/18S-rRNA/18S_archaeopteryx_js.tre", sep = "")
+treeFile <- paste(topDir, "results/fungal-models/18S_archaeopteryx_js.tre", sep = "")
 
 output_dir = paste(topDir, "results/figures/", sep = "")
 
