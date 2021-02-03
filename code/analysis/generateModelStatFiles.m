@@ -1,5 +1,9 @@
-function generateModelStatFiles(model, out_dir)
-%% generateModelStatsFile(model, out_dir)
+% summarize model characteristics for plotting
+modelFile = 'model/iRi1572.mat';
+load(modelFile)
+
+out_dir = 'results/stats';
+
 % produces:
 % > a data file 'model_stats.txt' with numbers for model features:
 % -- reactions
@@ -22,6 +26,7 @@ function generateModelStatFiles(model, out_dir)
 % > a file summarizing the compartmentation 'compartmentation.txt'
 
 model.S = full(model.S);
+
 % ~~~~~~~~~~~~~~~~ general stats ~~~~~~~~~~~~~~~~ %
 disp('general stats')
 %% transport reactions
@@ -160,4 +165,5 @@ for i=1:numel(uniqClasses)
 end
 fclose(fid);
 
-end
+clear
+clc
