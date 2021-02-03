@@ -8,7 +8,7 @@ writeToFile = T
 filename <- paste(topDir, "results/fungal-models/jd_ec_class.txt", sep = "")
 
 # NJ / UPGMA phylogeny run on MAFFT server (MAFFT 7; 31.8.2020)
-treeFile <- paste(topDir, "results/fungal-models/18S-rRNAs/18S_archaeopteryx_js.tre", sep = "")
+treeFile <- paste(topDir, "results/fungal-models/18S-rRNA/18S_archaeopteryx_js.tre", sep = "")
 
 output_dir = paste(topDir, "results/figures/", sep = "")
 
@@ -34,9 +34,9 @@ speciesNames = gsub("^[A-Za-z]+_", "", tree$tip.label[-grep("Rhizophagus_irregul
 clustLabels <- paste(genusLetter, ". ", speciesNames, sep = "")
 clustLabels = gsub("_.*$","",clustLabels)
 clustLabels <- clustLabels[length(clustLabels):1]
+
 # find the indices of the rows in data corresponding to the guide tree labels
 idxMatch <- match(clustLabels, rownames(data))
-# idxMatch = idxMatch[-which(is.na(idxMatch))]
 data = data[idxMatch,]
 
 # remove rows and columns with only ones
@@ -55,7 +55,6 @@ newnames <- as.expression(lapply(
 # color palette
 pal_length = 10
 pal = colorRampPalette(colors = c("light blue", "firebrick4"))(pal_length)
-
 
 
 if (writeToFile) pdf(paste(output_dir, "comparison_to_fungal_models.pdf", sep = ""),
