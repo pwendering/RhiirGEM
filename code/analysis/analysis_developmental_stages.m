@@ -1,6 +1,9 @@
 % determine important carbon sources under different developmental stages
 % upper bounds for reactions are limited by v_max which is estimated from
 % transcript abundances and k_cat values
+clear
+clc
+
 % initCobraToolbox(false);
 changeCobraSolver('ibm_cplex', 'all');
 disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
@@ -8,7 +11,7 @@ disp('|                       START                        |')
 disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 disp('')
 try
-    parpool(3);
+    parpool(4);
 catch
     disp('Parallel pool already available')
 end
@@ -46,7 +49,7 @@ oldUptake = {
     };
 
 % ~~~~~~~~~~~~~~ transcriptomics data ~~~~~~~~~~~~~~~ %
-transcriptomicDir = fullfile(topDir, 'data/transcriptomic-data';
+transcriptomicDir = fullfile(topDir, 'data/transcriptomic-data');
 transcriptomicFiles = {...
     fullfile(transcriptomicDir, 'transcriptomic_ERM.csv'),...
     fullfile(transcriptomicDir, 'transcriptomic_HYP.csv'),...
@@ -58,14 +61,14 @@ experiments = [experiments{:}];
 clear transcriptomicDir
 
 % ~~~~~~~~~~~~~~~~~~~~~~ kcats ~~~~~~~~~~~~~~~~~~~~~~ %
-maxKcatFile = fullfile(topDir, 'kcats/kcat-reference-data.tsv');
-modelKcatsFile = fullfile(topDir, 'kcats/kcats_model.txt');
+maxKcatFile = fullfile(topDir, 'data/kcats/kcat-reference-data.tsv');
+modelKcatsFile = fullfile(topDir, 'data/kcats/kcats_model.txt');
 
 % ~~~~~~~~~~~~~~~~~~ UniProt data ~~~~~~~~~~~~~~~~~~~ %
-uniProtFile = fullfile(topDir, 'uniprot.tab');
+uniProtFile = fullfile(topDir, 'data/uniprot.tab');
 
 % ~~~~~~~~~~~~~~~~ output directory ~~~~~~~~~~~~~~~~~ %
-outDir = fullfile(topDir, '/results/developmental-stages/');
+outDir = fullfile(topDir, 'results/developmental-stages/');
 
 % ~~~~~~~~~~~~~~~~ experimental data ~~~~~~~~~~~~~~~~ %
 % set total protein content (maximum over all conditions [Hildebrand et al.

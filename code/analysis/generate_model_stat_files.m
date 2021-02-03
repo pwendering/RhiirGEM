@@ -1,4 +1,7 @@
 % summarize model characteristics for plotting
+clear
+clc
+
 modelFile = 'model/iRi1572.mat';
 load(modelFile)
 
@@ -27,28 +30,29 @@ out_dir = 'results/stats';
 
 model.S = full(model.S);
 
-% ~~~~~~~~~~~~~~~~ general stats ~~~~~~~~~~~~~~~~ %
+%% ~~~~~~~~~~~~~~~~ general stats ~~~~~~~~~~~~~~~~ %
 disp('general stats')
-%% transport reactions
-t=ismember(model.rxns,findRxnsFromSubSystem(model,'Transport'));
+
+% transport reactions
+t = ismember(model.rxns,findRxnsFromSubSystem(model,'Transport'));
 n_transport = sum(t);
 clear formulas
 
-%% subsystems
+% subsystems
 subsystems = unique([model.subSystems{:}])';
 n_subsystems = numel(subsystems);
 
-%% blocked reactions
+% blocked reactions
 blocked = findBlockedReaction(model);
 n_blocked = numel(blocked);
 n_blocked_tr = numel(setdiff(blocked, model.rxns(t)));
 clear blocked
 
-%% reactions with E.C. association
+% reactions with E.C. association
 rxns_no_ec = cellfun(@(x)isequal(x,'null')|isempty(x), model.rxnECNumbers);
 n_ec = sum(~rxns_no_ec);
 
-%% mass- and charge balancing
+% mass- and charge balancing
 model.S = sparse(model.S);
 [~, imBalancedMass, imBalancedCharge, imBalancedRxnBool, ~, ~] = ...
     checkMassChargeBalance(model);
@@ -81,6 +85,7 @@ model.S = full(model.S);
 
 clear imBalancedMassCharge imBalancedCharge imBalancedMass imBalancedRxnBool ...
     t n_ec n_blocked n_blocked_tr n_subsystems n_transport rxns_no_ec
+
 %% ~~~~~~~~~~~~~~~~ reactions per subsystem ~~~~~~~~~~~~~~~~ %
 disp('subsystems')
 rxns_per_subsystem = cellfun(@(x)sum(ismember([model.subSystems{:}], x)),...

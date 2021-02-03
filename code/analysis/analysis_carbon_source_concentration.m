@@ -7,7 +7,7 @@ disp('|                       START                        |')
 disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 disp('')
 try
-    parpool(3);
+    parpool(4);
 catch
     disp('Parallel pool already available')
 end
@@ -56,7 +56,7 @@ modelKcatsFile = fullfile(topDir,'data/kcats/kcats_model.txt');
 uniProtFile = fullfile(topDir,'data/uniprot.tab');
 
 % ~~~~~~~~~~~~~~~~ output directory ~~~~~~~~~~~~~~~~~ %
-outDir = fullfile(topDir,'results/carbon-sources');
+outDir = fullfile(topDir,'results/carbon-sources/');
 
 % ~~~~~~~~~~~~~~~~ experimental data ~~~~~~~~~~~~~~~~ %
 % protein mass per gram dry weight [g/gDW] (Hildebrandt et al. 2006, FEMS)
