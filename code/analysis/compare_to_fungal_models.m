@@ -70,23 +70,3 @@ end; clear ec_tmp ec_model
 writetable(array2table(jd, 'RowNames', ec_tab.Properties.VariableNames,...
     'VariableNames', cellstr(strcat('EC',num2str((1:ec_classes)')))), fullfile(base_path, 'jd_ec_class.txt'),...
     'WriteVariableNames', true, 'WriteRowNames', true, 'Delimiter', '\t')
-
-
-% determine the number of blocked reactions per model (xml models)
-modelFiles = dir(fullfile(base_path,'*.xml'));
-modelFiles = regexp([modelFiles.name],'.+?\.xml','match');
-
-nBlocked = zeros(numel(modelFiles),1);
-pBlocked = zeros(size(nBlocked));
-for i=1:numel(modelFiles)
-    model=readCbModel(fullfile(base_path, modelFiles{i}));
-    try
-        tmpBlocked = findBlockedReaction(model);
-        nBlocked(i) = numel(tmpBlocked);
-    catch ME
-        disp(ME.message)
-    end
-    pBlocked(i) = 100*nBlocked(i)/numel(model.rxns);
-end
-
-
