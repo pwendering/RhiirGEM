@@ -41,7 +41,6 @@ stat$maps = read_stat_file(paste(inputDir, "kegg_map_rxns.txt", sep = ""))
 stat$subsystems = read_stat_file(paste(inputDir, "subsystem_rxns.txt", sep = ""))
 stat$subsystems = stat$subsystems[unlist(lapply(uniqueSubsystems,
   function(x) which(gsub(names(stat$subsystems),pattern="\\.",replacement=" ")==x)))]
-stat$kcats = read_stat_file(paste(inputDir, "kcats.txt", sep = ""))
 stat$metBRITE = read_stat_file(paste(inputDir, "met-brite.txt", sep = ""))
 stat$metBRITEOther = read_stat_file(paste(inputDir, "met-brite-other.txt", sep = ""))
 stat$metBRITELipids = read_stat_file(paste(inputDir, "met-brite-lipids.txt", sep = ""))
@@ -149,7 +148,7 @@ rxn_general = matrix(c(stat$general$reactions_with_EC, n_rxns-stat$general$react
                         n_rxns-stat$general$mass_imbalanced, stat$general$mass_imbalanced,
                         n_rxns-stat$general$charge_imbalanced, stat$general$charge_imbalanced,
                         n_rxns-stat$general$blocked, stat$general$blocked,
-                        1035, 537),
+                        1035, 537), # Gibbs energies
                       nrow = 2)
 
 # define row annotation for barplot
