@@ -1,0 +1,84 @@
+ID	NAME	KEGGID	KEGGMAP	SUBSYSTEM
+r0051_r0	sphinganine_1_phosphate_aldolase_c0	R02464	map00600	Lipid and fatty acid metabolism
+r0072_c0_f	atp_riboflavin_5_phosphotransferase_c0	R00549	map00740	Metabolism of cofactors and vitamins
+r0211_c0	o_acetyl_l_homoserine_hydrogen_sulfide_s_3_amino_3_carboxypropyltransferase_c0	R01287	map00270	Amino acid metabolism
+r0343_x0_f	acyl_coa_oxidase_decanoyl_coa_x0			Lipid and fatty acid metabolism
+r0344_x0_f	acyl_coa_oxidase_lauroyl_coa_x0			Lipid and fatty acid metabolism
+r0360_x0_f	acyl_coa_oxidase_myristoyl_coa_x0			Lipid and fatty acid metabolism
+r0372_c0	palmitaldehyde_nad_plus_oxidoreductase_c0	R01704	map00071	Lipid and fatty acid metabolism
+r0445_x0	s_3_hydroxytetradecanoyl_coa_hydro_lyase_x0	R04740	map00062|map00071|map01212	Lipid and fatty acid metabolism
+r0449_x0_f	s_3_hydroxydodecanoyl_coa_hydro_lyase_x0	R04170	map00062|map00071|map01212	Lipid and fatty acid metabolism
+r0517_r0	atp_sphinganine_1_phosphotransferase_r0	R02976	map00600	Lipid and fatty acid metabolism
+r0522_r0_f	sphinganine_nadph_oxygen_oxidoreductase_4_hydroxylating_r0	R06525	map00600	Lipid and fatty acid metabolism
+r0588_c0	atp_fmn_adenylyltransferase_c0	R00161	map00740	Metabolism of cofactors and vitamins
+r0671_x0_f	citrate_malate_antiport_x0			Transport
+r0672_x0_f	citrate_isocitrate_antiport_x0			Transport
+r0775_x0_f	acyl_coa_oxidase_hexanoyl_coa_x0			Lipid and fatty acid metabolism
+r0776_x0_f	acyl_coa_oxidase_butanoyl_coa_x0			Lipid and fatty acid metabolism
+r0778_x0_f	hydroxyacyl_coa_dehydrogenase_3_hydroxytetradecanoyl_coa_x0	R04739	map00062|map00071|map01212	Lipid and fatty acid metabolism
+r0779_x0_f	hydroxyacyl_coa_dehydrogenase_3_hydroxydodecanoyl_coa_x0			Lipid and fatty acid metabolism
+r0784_x0_f	s_3_hydroxyhexanoyl_coa_hydro_lyase_x0			Lipid and fatty acid metabolism
+r0786_x0_f	s_3_hydroxybutanoyl_coa_hydro_lyase_x0	R03026	map00071|map00310|map00362|map00380|map00627|map00650|map00720|map01200|map01212	Lipid and fatty acid metabolism
+r0787_x0_f	3_hydroxybutanoyl_coa_dehydrogenase_x0			Lipid and fatty acid metabolism
+r0789_x0_f	3_ketoacyl_coa_thiolase_3_oxomyristoyl_coa_x0	R03858	map00062|map00071|map01212	Lipid and fatty acid metabolism
+r0790_x0_f	3_ketoacyl_coa_thiolase_3_oxolauroyl_coa_x0			Lipid and fatty acid metabolism
+r0792_x0_f	3_ketoacyl_coa_thiolase_3_oxooctanoyl_coa_x0			Lipid and fatty acid metabolism
+r0793_x0_f	3_ketoacyl_coa_thiolase_3_oxohexanoyl_coa_x0	R01177	map00062|map00071|map01212	Lipid and fatty acid metabolism
+r0794_x0_f	3_ketoacyl_coa_thiolase_3_oxobutanoyl_coa_x0			Lipid and fatty acid metabolism
+r0873_r0	cholinephosphotransferase_r0	R01321	map00564	Lipid and fatty acid metabolism
+r0874_r0	choline_phosphate_cytidylyltransferase_r0	R01890	map00564	Lipid and fatty acid metabolism
+r0968_x0	isocitrate_lyase_x0	R00479	map00630|map01200	Carbohydrate metabolism
+r0969_x0_f	succinate_transport_x0			Transport
+r1019_r0	phosphatidylethanolamine_n_methyltransferase_r0	R02037	map00564	Lipid and fatty acid metabolism
+r1020_r0	phosphatidyl_n_methylethanolamine_n_methyltransferase_r0	R06868	map00564	Lipid and fatty acid metabolism
+r1021_r0	phosphatidylethanolamine_n_methyltransferase_r0	R06869	map00564	Lipid and fatty acid metabolism
+r1106_e0	lco3_16_1_sink			Sink
+r1108_e0	lco5_16_1_sink			Sink
+r1116_e0	lco5_18_1_d9_sink			Sink
+r1117_e0	lco6_18_1_d9_sink			Sink
+r1122_c0	lipochitooligosaccharide_n3_16_1_c0			Amino sugar and nucleotide sugar metabolism
+r1124_c0	lipochitooligosaccharide_n5_16_1_c0			Amino sugar and nucleotide sugar metabolism
+r1132_c0	lipochitooligosaccharide_n5_18_1_d9_c0			Amino sugar and nucleotide sugar metabolism
+r1133_c0	lipochitooligosaccharide_n6_18_1_d9_c0			Amino sugar and nucleotide sugar metabolism
+r1157_r0	tag_16_1_16_0_18_0_r0			Lipid and fatty acid metabolism
+r1158_r0	slime_tag_16_1_16_0_18_0_r0			Pseudoreaction
+r1169_r0	tag_16_1_18_1_18_1_r0			Lipid and fatty acid metabolism
+r1170_r0	slime_tag_16_1_18_1_18_1_r0			Pseudoreaction
+r1171_r0	tag_16_1_18_0_18_1_r0			Lipid and fatty acid metabolism
+r1172_r0	slime_tag_16_1_18_0_18_1_r0			Pseudoreaction
+r1173_r0	tag_16_0_18_1_18_1_r0			Lipid and fatty acid metabolism
+r1174_r0	slime_tag_16_0_18_1_18_1_r0			Pseudoreaction
+r1217_r0	dag_16_1_18_1_r0			Lipid and fatty acid metabolism
+r1218_r0	slime_dag_16_1_18_1_r0			Pseudoreaction
+r1219_r0	dag_16_1_18_0_r0			Lipid and fatty acid metabolism
+r1220_r0	slime_dag_16_1_18_0_r0			Pseudoreaction
+r1249_r0	dag_18_0_18_2_r0			Lipid and fatty acid metabolism
+r1250_r0	slime_dag_18_0_18_2_r0			Pseudoreaction
+r1251_r0	dag_18_0_18_1_r0			Lipid and fatty acid metabolism
+r1252_r0	slime_dag_18_0_18_1_r0			Pseudoreaction
+r1253_r0	dag_18_1_18_2_r0			Lipid and fatty acid metabolism
+r1254_r0	slime_dag_18_1_18_2_r0			Pseudoreaction
+r1289_r0	pc_16_1_18_1_r0			Lipid and fatty acid metabolism
+r1290_r0	slime_pc_16_1_18_1_r0			Pseudoreaction
+r1399_r0	pe_20_5_20_5_r0			Lipid and fatty acid metabolism
+r1400_r0	slime_pe_20_5_20_5_r0			Pseudoreaction
+r1431_r0	ps_16_1_18_0_r0			Lipid and fatty acid metabolism
+r1432_r0	slime_ps_16_1_18_0_r0			Pseudoreaction
+r1463_r0	ps_20_3_20_3_r0			Lipid and fatty acid metabolism
+r1464_r0	slime_ps_20_3_20_3_r0			Pseudoreaction
+r1477_r0	pi_16_1_16_1_r0			Lipid and fatty acid metabolism
+r1478_r0	slime_pi_16_1_16_1_r0			Pseudoreaction
+r1495_r0	pi_16_1_20_3_r0			Lipid and fatty acid metabolism
+r1496_r0	slime_pi_16_1_20_3_r0			Pseudoreaction
+r1499_r0	pi_18_1_18_1_r0			Lipid and fatty acid metabolism
+r1500_r0	slime_pi_18_1_18_1_r0			Pseudoreaction
+r1529_r0	adp_transport_r0			Transport
+r1645_e0	sink_CO_n4			Sink
+r1646_e0	sink_CO_n5			Sink
+r0426_c0_b	deamido_nad_plus_ammonia_ligase_amp_forming_c0	R00189	map00760	Metabolism of cofactors and vitamins
+r0522_r0_b	sphinganine_nadph_oxygen_oxidoreductase_4_hydroxylating_r0	R06525	map00600	Lipid and fatty acid metabolism
+r0764_r0_b	very_long_chain_3_oxoacyl_coa_synthase_palmitoyl_coa_r0	R07758	map01040|map01212	Lipid and fatty acid metabolism
+r0765_r0_b	very_long_chain_3_oxoacyl_coa_reducase_stearoyl_coa_r0			Lipid and fatty acid metabolism
+r0766_r0_b	very_long_chain_3_hydroxyacyl_coa_dehydratase_3_hydroxy_stearoyl_coa_r0			Lipid and fatty acid metabolism
+r0768_r0_b	very_long_chain_3_oxoacyl_coa_synthase_gamma_linolenoyl_coa_r0			Lipid and fatty acid metabolism
+r0769_r0_b	very_long_chain_3_oxoacyl_coa_reducase_3_oxo_dihomo_gamma_linolenoyl_coa_r0			Lipid and fatty acid metabolism
