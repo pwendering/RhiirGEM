@@ -1,7 +1,7 @@
 # Reconstruction and validation of a genome-scale metabolic model for _Rhizophagus irregularis_
 
 ## Description
-This repository contains all code and result files that were generated to analyse the _R. irregularis_ genome-scale metabolic model.
+This repository contains all code and result files that were generated to analyse the _R. irregularis_ genome-scale metabolic model iRi1572.
 
 ## Reference
 **to be added**
