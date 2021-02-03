@@ -1,4 +1,6 @@
 % compare Rhiir model to other published fungal models
+clear
+clc
 
 modelFile = 'model/iRi1572.mat';
 load(modelFile);
