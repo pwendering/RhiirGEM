@@ -33,7 +33,7 @@ concentrations = [10 100 1000];
 colNames = {'c1','c2','c3'}; % for writing result files
 
 % ~~~~~~~~~~~~~~~~~~~~~~ model ~~~~~~~~~~~~~~~~~~~~~~ %
-modelFile = fullfile(topDir,'Model_objects/max_model_final/iRi1572.mat');
+modelFile = fullfile(topDir,'model/iRi1572.mat');
 
 % uptake reactions to be removed
 oldUptake = {
