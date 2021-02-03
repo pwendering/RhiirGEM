@@ -7,7 +7,7 @@ writeToFile = T
 originalPar = par()
 
 # read predicted growth rates from file
-inFile <- paste(topDir, "results/developmental-stages/growth-rates-dev-stages.csv", sep = "")
+inFile <- "results/developmental-stages/growth-rates-dev-stages.csv"
 data <- read.table(inFile, header = T, row.names = 1)
 
 # predicted growth rates
@@ -16,7 +16,7 @@ growth = data[1,]
 # growth rates predicted using +- standard deviation of total protein content
 yPos = data[2:nrow(data),]
 
-if (writeToFile) {png(file=paste(topDir,"analysis/figures/Figure-4.png", sep=""),
+if (writeToFile) {png(file = "analysis/figures/Figure-4.png",
                       units = "cm", width = 12,height = 10,res = 600, pointsize = 8)}
 
 # define graphical parameters

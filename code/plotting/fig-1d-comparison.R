@@ -5,12 +5,12 @@ library(ape)
 
 writeToFile = T
 
-filename <- paste(topDir, "results/fungal-models/jd_ec_class.txt", sep = "")
+filename <- "results/fungal-models/jd_ec_class.txt"
 
 # NJ / UPGMA phylogeny run on MAFFT server (MAFFT 7; 31.8.2020)
-treeFile <- paste(topDir, "results/fungal-models/18S_archaeopteryx_js.tre", sep = "")
+treeFile <- "results/fungal-models/18S_archaeopteryx_js.tre"
 
-output_dir = paste(topDir, "results/figures/", sep = "")
+output_dir = "results/figures/"
 
 data <- read.table(filename, header = TRUE)
 rownames(data) <- data[,1]

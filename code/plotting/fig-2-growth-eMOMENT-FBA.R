@@ -11,17 +11,18 @@ load("code/plotting/rhiir_gem_plotting.rdata")
 # save default graphical parameters
 originalPar = par()
 
+
 # read data from FBA and eMOMENT predictions
-enzymeFBAFile <- paste(topDir, "results/carbon-sources/growth.csv", sep = "")
+enzymeFBAFile <- "results/carbon-sources/growth.csv"
 eFBA <- as.matrix(read.table(enzymeFBAFile, header = T, row.names = 1))
 
-FBAFile <- paste(topDir, "results/carbon-sources/growth-fba.csv", sep = "")
+FBAFile <- "results/carbon-sources/growth-fba.csv"
 FBA <- as.matrix(read.table(FBAFile, header = T, row.names = 1))
 
 # define carbon source names
 cSourceNames = c("D-Glucose", "D-Fructose", "Raffinose", "Melibiose")
 
-if (writeToFile) {png(file=paste(topDir,"results/figures/Figure-2.png",sep=""),
+if (writeToFile) {png(file = "results/figures/Figure-2.png",
                       units = "cm", width = 18,height = 12,res = 600, pointsize = 8)
 }
 

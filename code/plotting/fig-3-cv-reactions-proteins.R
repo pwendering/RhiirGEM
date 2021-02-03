@@ -12,7 +12,7 @@ orgininalPar = par()
 load("code/plotting/rhiir_gem_plotting.rdata")
 
 # read list of subsystems
-subSystemListFile <- paste(topDir, "results/subsystems.lst", sep = "")
+subSystemListFile <- "results/subsystems.lst"
 subSystemList <- read.table(subSystemListFile, header = F, sep = "\t")
 subSystemList = unlist(subSystemList)
 uniqueSubsystems = unique(subSystemList)
@@ -21,7 +21,7 @@ uniqueSubsystems = unique(subSystemList)
 subsystemFactor = unlist(lapply(subSystemList,function(x)which(uniqueSubsystems==x)))
 
 if (writeToFile) {
-  png(paste(topDir,"results/figures/Figure-3.png",sep=""),
+  png("results/figures/Figure-3.png",
       units = "cm", width = 15, height = 15, res = 600, pointsize = 7)
 }
 
@@ -44,7 +44,7 @@ par(mfrow=c(2,2),
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CV for proteins ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # read data from file
-proteinCVFile <- paste(topDir, "results/carbon-sources/protein-variances-per-subsystem.csv", sep = "")
+proteinCVFile <- "results/carbon-sources/protein-variances-per-subsystem.csv"
 protCV <- read.table(proteinCVFile, header = T, sep = "\t",na.strings = "NaN")
 
 # reorder table based on the order or unique subsystems
@@ -104,7 +104,7 @@ par(usr = usr)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CV for reactions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # read data from file
-rxnCVFile <- paste(topDir, "results/carbon-sources/reaction-variances-per-subsystem.csv", sep = "")
+rxnCVFile <- "results/carbon-sources/reaction-variances-per-subsystem.csv"
 rxnCV <- read.table(rxnCVFile, header = T, sep = "\t",na.strings = "NaN")
 
 # reorder table based on the order or unique subsystems
@@ -161,12 +161,12 @@ par(usr = usr)
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ flux CV vs concentration CV ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # read flux CV data
-rxnProtCVFile <- paste(topDir, "results/carbon-sources/rxn-prot-match-cv.csv", sep = "")
+rxnProtCVFile <- "results/carbon-sources/rxn-prot-match-cv.csv"
 rxnProtCVMatch <- read.table(rxnProtCVFile, header = F, sep = "\t",na.strings = "NaN")
 rxnProtCVMatch = as.matrix(rxnProtCVMatch)
 
 # read concentration CV data
-protCVFile <- paste(topDir, "analysis/growth-simulation/prot-cv.csv", sep = "")
+protCVFile <- "results/carbon-sources/prot-cv.csv"
 protCV <- read.table(protCVFile, header = F, sep = "\t",na.strings = "NaN")
 protCV = unlist(protCV)
 
