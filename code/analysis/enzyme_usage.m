@@ -378,179 +378,9 @@ concSamplingMat(concSamplingMat<1E-13) = 0;
 % set flux values below 1E-15 to 0 (assumed numerical precision)
 fluxSamplingMat(fluxSamplingMat<1E-15) = 0;
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% two-way ANOVA
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% ~~~~~~~~~~~~~~~~~~~~~ two-way anova for each gene ~~~~~~~~~~~~~~~~~~~~~ %
-
-% Eg_i ~ carbonSource + uptakeFlux + carbonSource:uptakeFlux
-
-% define factor names
-factors = {'Source','Concentration','Interaction'};
-
-% set significant level
-alpha = 0.05;
-
-% initialize matrix for P-values
-pValues = ones(nGenes, 3);
-
-% counter for all-zero concentration proteins
-c=0;
-for g=1:nGenes
-    
-    % create matrix for anova2 function
-    y = reshape(concSamplingMat(g,:),...
-        n*numel(concentrations),...
-        numel(carbonSources));
-    
-    if sum(sum(y))==0
-        c=c+1;
-        fprintf('all zero concentrations for protein #%d\n', g)
-    else
-        pValues(g,:) = anova2(y, n, 'off');
-    end
-    
-end; clear y g
-
-pValues = pValues(~all(pValues==1,2),:);
-
-fprintf('==> in total %d proteins had a concentration of zero across all conditions\n\n', c)
-
-% adjust alpha for MHT correction (Bonferroni)
-alpha = alpha / numel(pValues);
-
-% ~~~ influence per subsystem ~~~ %
-
-% remove orphan reactions
-M = removeRxns(model,setdiff(model.rxns,rxnIDs));
-M = removeRxns(M,findOrphanRxns(M));
-
-% get list of subsystems
-allSubSystems = vertcat(M.subSystems{:});
-
-% unique subsystems in model
-uniqueSubSystems = unique(allSubSystems);
-
-% number of reactions per subsystem
-nTotalSubsystems = cellfun(@(x)sum(ismember(allSubSystems, x)),...
-    uniqueSubSystems);
-
-% initialize matrix with influence of each factor on each subsystem
-influencePerSubSystem = zeros(numel(uniqueSubSystems), size(pValues,2));
-
-for i=1:size(pValues,2)
-    
-    % find significant p-values for the current coefficient
-    idxSignificant = pValues(:,i)<alpha;
-    
-    
-    if sum(idxSignificant)>0
-        
-        % find reactions associated to these genes
-        tmpGenes = M.genes(idxSignificant);
-        tmpRxns = findRxnsFromGenes(M, tmpGenes);
-        tmpRxns = struct2cell(structfun(@(x)vertcat(x(:,1)), tmpRxns, 'un', 0));
-        tmpRxns = unique(vertcat(tmpRxns{:}));
-        
-        % find subsystems associated to these reactions
-        tmpSubSystems = [M.subSystems{contains(M.rxns, tmpRxns)}]';
-        
-        % count occurrences of each subsystem
-        nPerSubsystem = cellfun(@(x)sum(ismember(tmpSubSystems, x)),...
-            uniqueSubSystems);
-        
-        % scale to total numbers per subsystem
-        influencePerSubSystem(:,i) = nPerSubsystem ./ nTotalSubsystems;
-        
-    end
-end; clear tmpRxns tmpGenes dependentSubSystems ...
-    pValues i idxSignificant idxNonSignificant M tmpIdx nPerSubSystem
-
-% write ANOVA results to file
-writetable(array2table(influencePerSubSystem, 'VariableNames', factors,...
-    'RowNames', uniqueSubSystems),...
-    [outDir, 'subsystems-anova-proteins.csv'],...
-    'WriteVariableNames', true, 'WriteRowNames', true, 'Delimiter', '\t');
-
-% ~~~~~~~~~~~~~~~~~~~ two-way anova for each reaction ~~~~~~~~~~~~~~~~~~~ %
-% remove blocked reactions from this analysis
-blockedIdx = all(fluxSamplingMat<=0,2);
-nzFluxMat = fluxSamplingMat(~blockedIdx,:);
-nzSubSystems = subSystems(~blockedIdx);
-nzRxnIDs = rxnIDs(~blockedIdx);
-
-% set significance niveau
-alpha = 0.05;
-
-% initialize matrix of P-values
-pValues = ones(size(nzFluxMat,1), 3); % v_i ~ carbonSource + uptakeFlux + carbonSource:uptakeFlux
-
-for r=1:size(nzFluxMat,1)
-    
-   
-    % create matrix for anova2 function
-    y = reshape(nzFluxMat(r,:),...
-        n*numel(concentrations),...
-        numel(carbonSources));
-     for i=1:size(y,2)
-         for j=1:size(y,1)/n
-             kstest(y((j-1)*n+1:j*n,i));
-         end
-     end
-         
-    pValues(r,:) = anova2(y, n, 'off');
-    
-end; clear y r blockedIdx
-
-% adjust alpha for MHT correction (Bonferroni)
-alpha = alpha / numel(pValues);
-
-% ~~~ influence per subsystem ~~~ %
-
-indRxns = {'ID','NAME','KEGGID','KEGGMAPS','TERM'};
-
-% get list of subsystems
-allSubSystems = vertcat(nzSubSystems{:});
-
-% unique subsystems in model
-uniqueSubSystems = unique(allSubSystems);
-
-% number of reactions per subsystem
-nTotalSubsystems = cellfun(@(x)sum(ismember(allSubSystems, x)),...
-    uniqueSubSystems);
-
-influencePerSubSystem = zeros(numel(uniqueSubSystems), size(pValues,2));
-
-for i=1:size(pValues,2)
-    % find significant p-values for the current coefficient
-    idxSignificant = pValues(:,i)<alpha;
-    
-    if sum(idxSignificant)>0
-        
-        % find subsystems associated to these reactions
-        tmpRxns = nzRxnIDs(idxSignificant);
-        tmpSubSystems = [nzSubSystems{contains(nzRxnIDs, tmpRxns)}]';
-        
-        % count occurrences of each subsystem
-        nPerSubsystem = cellfun(@(x)sum(ismember(tmpSubSystems, x)),...
-            uniqueSubSystems);
-        
-        % scale to total numbers per subsystem
-        influencePerSubSystem(:,i) = nPerSubsystem ./ nTotalSubsystems;
-        
-    end
-end; clear tmpRxns tmpGenes nPerSubSystem nTotalSubsystems dependentSubSystems ...
-    i alpha idxSignificant idxNonSignificant M tmpIdx nzSubSystems ...
-    nzRxnIDs
-% write anova results to file
-writetable(array2table(influencePerSubSystem, 'VariableNames', factors,...
-    'RowNames', uniqueSubSystems),...
-    [outDir, 'subsystems-anova-reactions.csv'],...
-    'WriteVariableNames', true, 'WriteRowNames', true, 'Delimiter', '\t');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Analyse concentration variability (CV)
+%% Analyse plasticity of protein abundances
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % ~~~ variance in concentration for every gene product over all conditions ~~~ %
 cvConc = zeros(nGenes, 1);
@@ -599,7 +429,7 @@ tmpRxns = struct2cell(structfun(@(x)vertcat(x(:,1)),tmpRxns,'un',0));
 hvr = unique(vertcat(tmpRxns{:}));
 clear tmpRxns idxHighVarGenes
 
-tmpIdx=ismember(rxnIDs,hvr);
+tmpIdx = ismember(rxnIDs,hvr);
 writetable(cell2table([rxnIDs(tmpIdx),rxnNames(tmpIdx),rxnKEGGID(tmpIdx),...
     rxnKeggMaps(tmpIdx),vertcat(subSystems{tmpIdx})],...
     'VariableNames', {'ID','NAME','KEGGID','KEGGMAP','SUBSYSTEM'}),...
@@ -626,7 +456,9 @@ writetable(cell2table([rxnIDs(tmpIdx),rxnNames(tmpIdx),rxnKEGGID(tmpIdx),...
 clear tmpIdx lvr
 
 
-% ~~~ variance in flux for every reaction over all conditions ~~~ %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Analyse plasticity of reaction fluxes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 cvFlux = zeros(nRxns, 1);
 
 for i=1:nRxns
