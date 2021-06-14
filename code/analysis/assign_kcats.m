@@ -1,5 +1,5 @@
 function kcats = assign_kcats(model, kcatFile, taxTerm, outFileName)
-%% kcats = assign_kcats(model, kcatFile, taxTerm, taxLimit, exclude(opt), pruneEC(opt), outFileName(opt))
+%% kcats = assign_kcats(model, kcatFile, taxTerm, outFileName)
 % Either reads kcats from file or assigns kcats based on matching EC numbers,
 % substrate matches and phylogenetic distance.
 % Input:
@@ -25,7 +25,7 @@ if nargin < 2
     error('USAGE: assign_kcats(model, filename, kcat_file)')
 elseif any(~isfield(model, req_fields))
     error(['The model input must have the fields: ', strjoin(req_fields, ', ')])
-elseif exist(outFileName, 'file')
+elseif exist('outFileName', 'file')
     fid = fopen(outFileName, 'r');
     kcats = fscanf(fid, '%f');
     fclose(fid); clear fid
