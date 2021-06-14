@@ -49,7 +49,7 @@ function [solution,problem] = enzymeFBA(model, kcats, mw, C, objIdx, verbose)
 %                   ub          upper bounds
 %                   ctype       variable types (continuous/binary)
 
-if nargin < 5 || isempty(objIdx) || objIdx == 0
+if nargin < 5 || isempty(objIdx)
     objIdx = find(model.c);
 end
 
