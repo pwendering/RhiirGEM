@@ -99,9 +99,9 @@ upperBounds(ngamIdx)=model.ub(ngamIdx);
 
 % objective
 f = zeros(size(Eineq,2),1);
-if model.osenseStr == 'max'
+if isequal(model.osenseStr,'max')
     f(objIdx) = -1;
-elseif model.osenseStr == 'min'
+elseif isequal(model.osenseStr,'min')
     f(objIdx) = 1;
 else
     error('No objective sense found')
