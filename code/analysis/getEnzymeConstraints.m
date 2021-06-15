@@ -60,6 +60,8 @@ for i=1:nRxns
             
             % add white space on both sides of the rule
             gpr=[' ',gpr,' '];
+            gpr = regexprep(gpr,'))',') )');
+            gpr = regexprep(gpr,'(x', '( x');
             
             % complex rules have additional pairs of brackets, which is used to
             % split the rule into its major components; keep the matching separator
