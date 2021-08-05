@@ -1,25 +1,19 @@
 ID	NAME	KEGGID	KEGGMAP	SUBSYSTEM
-r0116_m0	isocitrate_nad_plus_oxidoreductase_decarboxylating_m0	R00709	map00020|map01110|map01200|map01210|map01230	Carbohydrate metabolism
+r0097_c0_f	d_erythro_1_imidazol_4_ylglycerol_3_phosphate_hydro_lyase_c0	R03457	map00340|map01110|map01230	Amino acid metabolism
 r0121_c0_f	2_phospho_d_glycerate_hydro_lyase_phosphoenolpyruvate_forming_c0	R00658	map00010|map00680|map01110|map01200|map01230	Carbohydrate metabolism
-r0134_c0	pyruvate_kinase_c0	R00200	map00010|map00230|map00620|map01110|map01200|map01230	Carbohydrate metabolism
+r0146_c0_f	s_adenosyl_l_methionine_uroporphyrin_iii_c_methyltransferase_c0	R03194	map00860|map01110	Metabolism of cofactors and vitamins
 r0216_c0_f	l_histidinol_phosphate_phosphohydrolase_c0	R03013	map00340|map01110|map01230	Amino acid metabolism
 r0245_c0	nadph_oxygen_oxidoreductase_c0	R07172		Metabolism of cofactors and vitamins
-r0279_m0_f	succinate_coa_ligase_adp_forming_m0	R00405	map00020|map00640|map00720|map01110|map01200	Carbohydrate metabolism
-r0373_m0	succinate_quinone_oxidoreductase_m0	R02164		Carbohydrate metabolism
+r0381_m0	cytochrome_c_oxidase_2_protons_translocated_m0			Metabolism of cofactors and vitamins
 r0388_c0	nadh_oxygen_oxidoreductase_c0	R07171		Metabolism of cofactors and vitamins
-r0420_m0	succinate_fad_oxidoreductase_m0	R00408	map00720|map01200	Carbohydrate metabolism
-r0490_m0	fad_oxidation_m0			Metabolism of cofactors and vitamins
-r0610_c0_f	atp_3_phospho_d_glycerate_1_phosphotransferase_c0	R01512	map00010|map00710|map01110|map01200|map01230	Carbohydrate metabolism
+r0455_m0	ubiquinol_ferricytochrome_c_oxidoreductase_m0	R02161		Metabolism of cofactors and vitamins
+r0513_m0_f	phosphate_transport_m0			Transport
 r0641_m0	2_methoxy_6_polyprenyl_1_4_benzoquinol_methylase_m0	R04990	map00130|map01110	Metabolism of cofactors and vitamins
-r0898_r0	sphingolipid_delta_4_desaturase_r0			Lipid and fatty acid metabolism
-r0900_r0	sphingolipid_c9_methyltransferase_r0			Lipid and fatty acid metabolism
-r0903_g0	udp_glucose_ump_antiport_g0			Transport
-r0904_g0	phosphate_transport_g0			Transport
 r1591_c0	ubiquinone_oxidase_m0	R09504		Metabolism of cofactors and vitamins
-r1596_m0	nadh_ubiquinone_oxidoreductase_m0	R02163		Metabolism of cofactors and vitamins
-r1619_m0_f	nadh_dehydrogenase_m0			Transport
+r1649_m0_f	adp_atp_transporter_m0			Transport
+r0097_c0_b	d_erythro_1_imidazol_4_ylglycerol_3_phosphate_hydro_lyase_c0	R03457	map00340|map01110|map01230	Amino acid metabolism
 r0121_c0_b	2_phospho_d_glycerate_hydro_lyase_phosphoenolpyruvate_forming_c0	R00658	map00010|map00680|map01110|map01200|map01230	Carbohydrate metabolism
+r0146_c0_b	s_adenosyl_l_methionine_uroporphyrin_iii_c_methyltransferase_c0	R03194	map00860|map01110	Metabolism of cofactors and vitamins
 r0216_c0_b	l_histidinol_phosphate_phosphohydrolase_c0	R03013	map00340|map01110|map01230	Amino acid metabolism
-r0279_m0_b	succinate_coa_ligase_adp_forming_m0	R00405	map00020|map00640|map00720|map01110|map01200	Carbohydrate metabolism
-r0610_c0_b	atp_3_phospho_d_glycerate_1_phosphotransferase_c0	R01512	map00010|map00710|map01110|map01200|map01230	Carbohydrate metabolism
-r1619_m0_b	nadh_dehydrogenase_m0			Transport
+r0513_m0_b	phosphate_transport_m0			Transport
+r1649_m0_b	adp_atp_transporter_m0			Transport

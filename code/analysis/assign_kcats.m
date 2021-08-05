@@ -25,7 +25,11 @@ if nargin < 2
     error('USAGE: assign_kcats(model, filename, kcat_file)')
 elseif any(~isfield(model, req_fields))
     error(['The model input must have the fields: ', strjoin(req_fields, ', ')])
-elseif exist('outFileName', 'file')
+end
+
+if ~exist('outFileName', 'var')
+    outFileName = '';
+elseif exist(outFileName, 'file')
     fid = fopen(outFileName, 'r');
     kcats = fscanf(fid, '%f');
     fclose(fid); clear fid
@@ -41,7 +45,7 @@ if ~exist(kcatFile, 'file')
     error('Cannot read reaction-specific kcats and and mapping file does not exist.')
 end
 
-if nargin < 4 || ~ischar(taxTerm)
+if nargin < 3 || ~ischar(taxTerm)
     taxTerm = '';
 end
     

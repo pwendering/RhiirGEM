@@ -2,7 +2,7 @@
 clear
 clc
 
-modelFile = 'model/iRi1572.mat';
+modelFile = 'model/iRi1574.mat';
 load(modelFile)
 
 out_dir = 'results/stats';
@@ -34,7 +34,8 @@ model.S = full(model.S);
 disp('general stats')
 
 % transport reactions
-t = ismember(model.rxns,findRxnsFromSubSystem(model,'Transport'));
+t = cellfun(@(x)numel(unique(regexp(x,'\[..\]','match'))),...
+    printRxnFormula(model,'rxnAbbrList',model.rxns,'printFlag',false))>1;
 n_transport = sum(t);
 clear formulas
 
@@ -43,7 +44,9 @@ subsystems = unique([model.subSystems{:}])';
 n_subsystems = numel(subsystems);
 
 % blocked reactions
-blocked = findBlockedReaction(model);
+% blocked = findBlockedReaction(model);
+[minFlux,maxFlux] = fva(model);
+blocked = model.rxns(minFlux==0&maxFlux==0);
 n_blocked = numel(blocked);
 n_blocked_tr = numel(setdiff(blocked, model.rxns(t)));
 clear blocked
@@ -169,6 +172,3 @@ for i=1:numel(uniqClasses)
     fprintf(fid, '%s\t%d\n', uniqClasses{i}, nPerClass(i));
 end
 fclose(fid);
-
-clear
-clc

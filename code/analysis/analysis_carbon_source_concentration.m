@@ -1,6 +1,7 @@
 % estimate enzymes usage on different carbon sources
-% initCobraToolbox(false);
-changeCobraSolver('ibm_cplex', 'all');
+
+clear; clc
+changeCobraSolver('ibm_cplex', 'all',0);
 
 disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 disp('|                       START                        |')
@@ -33,7 +34,7 @@ concentrations = [10 100 1000];
 colNames = {'c1','c2','c3'}; % for writing result files
 
 % ~~~~~~~~~~~~~~~~~~~~~~ model ~~~~~~~~~~~~~~~~~~~~~~ %
-modelFile = fullfile(topDir,'model/iRi1572.mat');
+modelFile = fullfile(topDir,'model/iRi1574.mat');
 
 % uptake reactions to be removed
 oldUptake = {
@@ -48,15 +49,15 @@ oldUptake = {
 proteinID='m0995[c0]';
 
 % ~~~~~~~~~~~~~~~~~~~~~~ kcats ~~~~~~~~~~~~~~~~~~~~~~ %
-maxKcatFile = fullfile(topDir,'data/kcats/kcat-reference-data.tsv');
+maxKcatFile = fullfile(topDir, 'data/kcats/kcat-reference-data.tsv');
 
-modelKcatsFile = fullfile(topDir,'data/kcats/kcats_model.txt');
+modelKcatsFile = fullfile(topDir, 'data/kcats/kcats_model.txt');
 
 % ~~~~~~~~~~~~~~~~~~ UniProt data ~~~~~~~~~~~~~~~~~~~ %
-uniProtFile = fullfile(topDir,'data/uniprot.tab');
+uniProtFile = fullfile(topDir, 'data/uniprot.tab');
 
 % ~~~~~~~~~~~~~~~~ output directory ~~~~~~~~~~~~~~~~~ %
-outDir = fullfile(topDir,'results/carbon-sources/');
+outDir = fullfile(topDir, 'results/carbon-sources/relaxed_uptake/');
 
 % ~~~~~~~~~~~~~~~~ experimental data ~~~~~~~~~~~~~~~~ %
 % protein mass per gram dry weight [g/gDW] (Hildebrandt et al. 2006, FEMS)
@@ -65,8 +66,6 @@ proteinContent = [...
     88 98 89;               % Fructose
     102 103 106;            % Raffinose
     83 86 75] * 1E-3;       % Melibiose
-
-proteinContent = 1.2*proteinContent;
 
 % mass fraction of protein accounted for in the model (as in GECKO,
 % Sanchez et al. 2017)
@@ -92,21 +91,23 @@ palmitateIdx = findRxnIDs(model,'r1007_e0');
 tmpModel = model;
 % limit biomass reaction to optimal growth rate
 s = optimizeCbModel(tmpModel);
-tmpModel.lb(model.c==1) = s.f;
+tmpModel.lb(model.c==1) = (1-1e-6)*s.f;
 % change objective to minimization of palmitate uptake
 tmpModel.c(:) = 0;
 tmpModel.c(palmitateIdx) = 1;
 tmpModel.osenseStr = 'min';
 s = optimizeCbModel(tmpModel);
 % set palmitate uptake to the minimum possible flux at optimal growth
-model.lb(palmitateIdx) = s.f;
+model.ub(palmitateIdx) = s.f;
 clear tmpModel s palmitateIdx
 
 % remove blocked reactions
 % add additional carbon sources temporarily to reactions acting on it are not blocked
 model = addReaction(model, 'tmpRxn', 'reactionFormula', ['-> ' strjoin(carbonSources,' + ')],...
     'printLevel', 0);
-blockedReactions = findBlockedReaction(model);
+[minFlux, maxFlux] = fva(model,1-1e-6);
+blockedReactions = model.rxns(minFlux==0&maxFlux==0);
+% blockedReactions = findBlockedReaction(model);
 model = removeRxns(model, blockedReactions, 'metFlag', false);
 model = removeRxns(model, 'tmpRxn', 'metFlag', false);
 
@@ -244,8 +245,9 @@ if new
             % ~~~~~~~~~~~~~~~~~~~~~~ 1. FBA ~~~~~~~~~~~~~~~~~~~~~~ %
             
             % run FBA without enzyme constraints
-            s = optimizeCbModel(finalModel);
-            
+            % s = optimizeCbModel(finalModel);
+            s.x = cplexlp(-finalModel.c,[],[],finalModel.S,...
+                finalModel.b,finalModel.lb,finalModel.ub);
             growthMatFBA(i,j) = s.x(finalModel.c==1);
             
             % run FBA with enzyme constraints
@@ -253,7 +255,7 @@ if new
             
             % store predicted growth
             growthMatEnzFBA(i,j) = s.x(finalModel.c==1);
-            
+
             % % ~~~~~~~~~~~~~~ 2. variability analysis ~~~~~~~~~~~~~ %
             fprintf('\n> Variablity analysis for enzyme concentrations\n')
             
@@ -294,7 +296,6 @@ if new
                 [outDir, cSourceNames{i}, '_', colNames{j},...
                 '_flux_sampling.csv'],...
                 'WriteVariableNames',true,'WriteRowNames',true,'Delimiter','\t');
-            
             fprintf('\n-----------------------------\n')
         end
         clear minConc maxConc eConcMat rxnFluxMat resTable uptakeID
@@ -395,7 +396,9 @@ for i=1:nGenes
 end; clear tmpRow
 
 % ~~~ variation per subsystem ~~~ %
-subSystemCV = zeros(nGenes,numel(uniqueSubSystems));
+uniqueSubSystems = unique([model.subSystems{:}]);
+uniqueSubSystems(cellfun(@isempty,uniqueSubSystems)) = [];
+subSystemCVConc = zeros(nGenes,numel(uniqueSubSystems));
 
 for i=1:numel(uniqueSubSystems)
     
@@ -408,12 +411,12 @@ for i=1:numel(uniqueSubSystems)
     if ~isempty(tmpGenes)
         % get all CV values for the genes found in the step before
         rowIdx=ismember(model.genes,tmpGenes);
-        subSystemCV(rowIdx,i) = cvConc(rowIdx);
+        subSystemCVConc(rowIdx,i) = cvConc(rowIdx);
     end
 end; clear tmpRxns tmpGenes rowIdx
 
 colNames = regexprep(uniqueSubSystems, ' ', '_');
-writetable(array2table(subSystemCV, 'VariableNames', colNames),...
+writetable(array2table(subSystemCVConc, 'VariableNames', colNames),...
     [outDir, 'protein-variances-per-subsystem.csv'],...
     'WriteVariableNames', true, 'WriteRowNames', false, 'Delimiter', '\t');
 clear colNames
@@ -471,20 +474,20 @@ end; clear tmpRow
 cvFlux(cvFlux<0) = 0;
 
 % ~~~ variation per subsystem ~~~ %
-subSystemCV = zeros(nRxns,numel(uniqueSubSystems));
+subSystemCVFlux = zeros(nRxns,numel(uniqueSubSystems));
 
 for i=1:numel(uniqueSubSystems)
     
     % find reactions associated with current subsystem
     tmpRxns = findRxnsFromSubSystem(model, uniqueSubSystems{i});
-    
+    % find corresponding indices
     rowIdx = ismember(rxnIDs,tmpRxns);
-    subSystemCV(rowIdx,i) = cvFlux(rowIdx);
+    subSystemCVFlux(rowIdx,i) = cvFlux(rowIdx);
     
 end; clear tmpRxns rowIdx
 
 colNames = regexprep(uniqueSubSystems, ' ', '_');
-writetable(array2table(subSystemCV, 'VariableNames', colNames),...
+writetable(array2table(subSystemCVFlux, 'VariableNames', colNames),...
     [outDir, 'reaction-variances-per-subsystem.csv'],...
     'WriteVariableNames', true, 'WriteRowNames', false, 'Delimiter', '\t');
 clear colNames
@@ -510,7 +513,7 @@ elseif isfile(fName)
 end
 clear idxHighVarRxns fName
 
-% reactions with low variance (remove blocked reactions)
+% reactions with low variance
 idxLowVarRxns = cvFlux < quantile(cvFlux,0.1) & any(fluxSamplingMat>0,2);
 fName = [outDir, 'low-variance-reactions-per-subsystem.csv'];
 if sum(idxLowVarRxns)>0
@@ -552,8 +555,152 @@ writetable(array2table(cvFluxConcMatch),...
     'WriteVariableNames',false,'WriteRowNames',false,'Delimiter','\t');
 
 writetable(cell2table(vertcat(subSystems{:})),...
-    [topDir,'/results/','subsystems.lst'],...
+    [topDir,'results/','subsystems.lst'],...
     'WriteVariableNames',false,'WriteRowNames',false,'FileType','text');
 
 writetable(array2table(cvConc),[outDir,'prot-cv.csv'],...
     'WriteVariableNames',false,'WriteRowNames',false,'Delimiter','\t');
+
+%% Print main results
+% get median CV of protein abundance
+tmpCV = subSystemCVConc(any(subSystemCVConc,2),:);
+tmpCV(tmpCV==0) = NaN;
+medianCVConc = median(tmpCV,'omitnan');
+[medianCVConc,orderIdxProt] = sort(medianCVConc,'descend');
+% get the number of reactions associated to each subsystem
+nRxnsPerSubsyst = cellfun(@(x)numel(findRxnsFromSubSystem(model,x)),uniqueSubSystems);
+
+% get median CV of reaction flux
+tmpCV = subSystemCVFlux(any(subSystemCVFlux,2),:);
+tmpCV(tmpCV==0) = NaN;
+medianCVFlux = median(tmpCV,'omitnan');
+[medianCVFlux,orderIdxRxns] = sort(medianCVFlux,'descend');
+genesPerSubsyst = cell(size(uniqueSubSystems));
+for i=1:numel(uniqueSubSystems)
+    rxnIdx = findRxnIDs(model,findRxnsFromSubSystem(model,uniqueSubSystems(i)));
+    tmpGenes = regexp(model.rules(rxnIdx),'\d+', 'match');
+    genesPerSubsyst{i} = unique([tmpGenes{:}]);
+end
+clear tmpGenes
+
+% determine gene overlap between subsystems
+geneOvlpSubsyst = zeros(numel(uniqueSubSystems));
+for i=1:numel(uniqueSubSystems)
+        geneOvlpSubsyst(i,:) = cellfun(@(x)numel(intersect(genesPerSubsyst{i},x)),genesPerSubsyst);
+end
+nProtPerSubsyst = diag(geneOvlpSubsyst);
+clear tmpCV
+geneOvlpSubsyst = geneOvlpSubsyst - diag(nProtPerSubsyst);
+heatmap(uniqueSubSystems,uniqueSubSystems,geneOvlpSubsyst, 'Colormap', parula)
+
+% determine average enzyme promiscuity
+promiscuityCount = structfun(@(x)size(x,1),findRxnsFromGenes(model,model.genes));
+fprintf('Average enzyme promiscuity: %.2g\n',mean(promiscuityCount))
+fprintf('Median enzyme promiscuity: %.2g\n',median(promiscuityCount))
+fprintf('Most occurring enzyme promiscuity: %.0g\n',mode(promiscuityCount))
+
+% display results for median CV per subsystem
+disp(table(...
+    medianCVConc',log10(medianCVConc'),nProtPerSubsyst(orderIdxProt),...
+    'VariableNames', {'Protein CV', 'Log10(CV) Protein', 'n'},...
+    'RowNames', uniqueSubSystems(orderIdxProt)))
+
+disp(table(...
+    medianCVFlux',log10(medianCVFlux'), nRxnsPerSubsyst(orderIdxRxns)',...
+    'VariableNames', {'Reaction CV', 'Log10(CV) Reaction', 'n'},...
+    'RowNames', uniqueSubSystems(orderIdxRxns)))
+
+
+% Find genes with high abundance CV that are associated with reaction with low flux CV
+% use cvFluxConcMatch
+q_abundance = 0.9;
+q_flux = 0.1;
+tCVProt = quantile(cvConc,q_abundance);
+fprintf('Threshold for high protein abundance CV: %.2g (10^%.2g)\n', tCVProt, log10(tCVProt));
+highProtCV = cvConc>tCVProt;
+fluxCVHighProtCV = cvFluxConcMatch(highProtCV,:); 
+tCVFlux = quantile(cvFlux,q_flux);
+fprintf('Threshold for low flux CV: %.2g (10^%.2g)\n', tCVFlux, log10(tCVFlux));
+assocLowFluxCVRxns = fluxCVHighProtCV<=tCVFlux;
+fprintf('Total number of associated low flux CV reactions: %d (out of %d associated reactions)\n',...
+    sum(any(assocLowFluxCVRxns)),sum(any(fluxCVHighProtCV)))
+fprintf('Low flux CV reactions associated with high abundance CV Proteins:\n')
+idxAssocRxn = any(assocLowFluxCVRxns);
+tmpGenes = findGenesFromRxns(model,model.rxns(idxAssocRxn));
+disp(...
+    table(model.rxnNames(idxAssocRxn),...
+    num2cell(cvFlux(idxAssocRxn)),...
+    [model.subSystems{idxAssocRxn}]',...
+    cellfun(@(x)strjoin(x,';'),tmpGenes,'un',0),...
+    'VariableNames', {'RXN NAME', 'Flux CV', 'Subsystem', 'assoc proteins'})...
+)
+
+fprintf('Associated KEGG IDs and pathway maps:\n')
+arrayfun(@(i)fprintf('%s\n',model.rxnKEGGID{i}),find(idxAssocRxn))
+arrayfun(@(i)fprintf('%s\n',model.rxnKeggMaps{i}),find(idxAssocRxn))
+
+% flux CV of reactions associated with high abundance CV proteins
+figure1 = figure;
+tmpIdx = find(highProtCV);
+c = 0;
+geneNames = cell(size(tmpIdx));
+for i=1:numel(tmpIdx)
+    if any(assocLowFluxCVRxns(i,:))
+        c = c + 1;
+        % plot all flux CV values associeated to the current protein
+        X = repmat(c,size(cvFluxConcMatch,2),1);
+        Y = log10(cvFluxConcMatch(tmpIdx(i),:));
+        plot(X,Y,'k.', 'MarkerSize', 15)
+        hold on
+        % plot the ones with low flux CV in red
+        lowFluxIdx = any(assocLowFluxCVRxns(i,:),1);
+        plot(X(lowFluxIdx),Y(lowFluxIdx), 'r.', 'MarkerSize', 15)
+        geneNames(c) = model.genes(tmpIdx(i));
+    end
+end
+% xlabels
+geneNames(cellfun(@isempty,geneNames)) = [];
+hold off
+xticks(1:numel(geneNames))
+xtickangle(45)
+xticklabels(strrep(geneNames,'_','\_'))
+% ylabel
+ylabel('log_{10} CV reaction flux', 'FontSize', 12)
+% plot line for threshold for low flux CV
+line([0 numel(geneNames)+1], log10([tCVFlux tCVFlux]),'LineStyle', '--',...
+    'Color', 'k')
+set(gca,'FontSize', 14)
+
+set(figure1, 'Units', 'normalized', 'OuterPosition', [0 0 1 1])
+print(figure1, 'high_abundance_cv_low_flux_cv.png', '-painters', '-dpng')
+
+%% High abundance CV, high flux CV
+q = .9;
+% get CV thresholds
+tCVProt = quantile(cvConc,q);
+tCVFlux = quantile(cvFlux,q);
+fprintf('Threshold for high protein abundance CV: %.3g\n', tCVProt)
+fprintf('Threshold for high reaction flux CV: %.3g\n', tCVFlux)
+% find high abundance CV proteins
+highProtCV = find(cvConc>tCVProt);
+% get flux CVs for reactions associated with these proteins
+fluxCVHighProtCV = cvFluxConcMatch(highProtCV,:); 
+% determine associated reactions with high flux CV
+assocHighFluxCVRxns = fluxCVHighProtCV>tCVFlux;
+fprintf('Reactions with high flux CV associated with high proteins with high abundance CV: %d\n',...
+    sum(any(assocHighFluxCVRxns,1)))
+
+%% Reactions with high flux CV
+q = .9;
+tCVFlux = quantile(cvFlux,q);
+highFluxCVRxns = cvFlux>tCVFlux;
+fprintf('Total number of high flux CV reactions: %d\n', sum(highFluxCVRxns))
+disp(table(...
+    model.rxnNames(highFluxCVRxns), [model.subSystems{highFluxCVRxns}]'...
+))
+% subsystem distribution of reactions with high flux CV
+tabulate([model.subSystems{highFluxCVRxns}])
+
+
+
+

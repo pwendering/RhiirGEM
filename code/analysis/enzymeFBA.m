@@ -83,8 +83,7 @@ nANDComps = size(Eineq,2)-2*nGenes-nRxns-nRxnProtPairs;
 
 % define upper bounds; reaction flux cannot be larger than the largest kcat
 % as the enzyme concentration will always be below 1 mmol gDW-1
-% upperBounds = [max(kcats)*ones(nRxns,1);ones(2*nGenes+nRxnProtPairs+nANDComps,1)];
-upperBounds = [1E5*ones(nRxns,1);ones(2*nGenes+nRxnProtPairs+nANDComps,1)];
+upperBounds = [max(kcats)*ones(nRxns,1);ones(2*nGenes+nRxnProtPairs+nANDComps,1)];
 
 % find boundary reacions (upper bounds should remain the same)
 excIdx = find(findExcRxns(model));

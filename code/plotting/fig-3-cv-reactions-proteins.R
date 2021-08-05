@@ -65,7 +65,10 @@ protCV = as.matrix(protCV)
 
 # logarithmize data 
 protCV = log10(protCV)
-
+outlier = protCV<(-5)
+print("Number of protein CV outliers:")
+print(length(which(outlier)))
+protCV[outlier]=NA
 # sort columns by median
 newOrder = order(apply(protCV,2,function(x) median(x,na.rm = T)),decreasing = T)
 protCV=protCV[,newOrder]
@@ -76,10 +79,10 @@ box.colors = box.colors[newOrder]
 
 # create a boxplot
 boxplot(x = protCV,
-        ylab = expression(log[10]*" CV protein concentration"),
+        ylab = expression(log[10]*" CV protein abundance"),
         xaxt = "n",
-        col = box.colors,
         outline = FALSE,
+        col = box.colors,
         cex.axis = cex.axis,
         cex.lab = cex.lab
 )
@@ -124,7 +127,10 @@ rxnCV = as.matrix(rxnCV)
 
 # logarithmize data 
 rxnCV = log10(rxnCV)
-
+outlier = rxnCV<(-5)
+print("Number of reaction CV outliers:")
+print(length(which(outlier)))
+rxnCV[outlier] = NA
 # sort columns by median
 newOrder = order(apply(rxnCV,2,function(x) median(x,na.rm = T)),decreasing = T)
 rxnCV=rxnCV[,newOrder]
@@ -137,8 +143,8 @@ box.colors = box.colors[newOrder]
 boxplot(x = rxnCV,
         ylab = expression(log[10]*" CV reaction flux"),
         xaxt = "n",
-        col = box.colors,
         outline = FALSE,
+        col = box.colors,
         cex.axis = cex.axis,
         cex.lab = cex.lab
 )
@@ -172,19 +178,22 @@ protCV = unlist(protCV)
 
 # logarithmize data
 protCV=log10(protCV)
+outlier = protCV<(-5)
+protCV[outlier]=NA
+
 rxnProtCVMatch=log10(rxnProtCVMatch)
 
 # create scatterplot
 matplot(protCV,rxnProtCVMatch,pch=19,
-        xlab = "",
-     ylab = expression(log[10]*" CV reaction flux"),
-     col = color.palette[subsystemFactor],
-     cex.axis = cex.axis,
-     cex.lab = cex.lab
+      xlab = "",
+      ylab = expression(log[10]*" CV reaction flux"),
+      col = color.palette[subsystemFactor],
+      cex.axis = cex.axis,
+      cex.lab = cex.lab
 )
 
 # add x axis title
-title(xlab = expression(log[10]*" CV protein concentration"), line = 3,
+title(xlab = expression(log[10]*" CV protein abundance"), line = 3,
       cex.lab = cex.lab)
 
 # add box
@@ -201,7 +210,7 @@ par(usr = usr)
 # create an empty plot
 plot(NA,type="n",xlim=c(0,1),ylim=c(0,1),xaxt="n",yaxt="n",bty="n",xlab="",ylab="")
 # add legend
-legend(x = -.12, y = 1, legend = uniqueSubsystems, fill = color.palette,
+legend(x = -.15, y = 1, legend = uniqueSubsystems, fill = color.palette,
        cex = 2.1, bty = "n")
 
 if (writeToFile) dev.off()

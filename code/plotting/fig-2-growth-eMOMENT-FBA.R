@@ -8,6 +8,20 @@ writeToFile = T
 # load general plotting functions and variables
 load("code/plotting/rhiir_gem_plotting.rdata")
 
+# parameters for the calculation of growth rates
+
+# growth time [h] (Hildebrandt et al. 2006)
+t = 2.5 * 30 * 24 
+# number of spores at t0 (Hildebrandt et al. 2006) (Glomus intraradices Sy167)
+n_spores = 1000;
+# weight per parent spore (Sugiura et al. 2020) (Rhizophagus irregularis)
+w_per_spore = 0.3e-6
+# dry weight at t0
+DW_0 = n_spores*w_per_spore
+# calculate growth rate assuming exponential growth
+mu_calc = log(totalMass/DW_0)/t # [h^-1]
+
+
 # save default graphical parameters
 originalPar = par()
 
@@ -40,14 +54,16 @@ colScaleSteps = c(0.05,0.3,1)
 colorFill = unlist(lapply(rep(c("darkblue","red"),each=nrow(eFBA)),function(x) {
   return(c(alpha(x,colScaleSteps[1]),alpha(x,colScaleSteps[2]),alpha(x,colScaleSteps[3])))}))
 colorFill = matrix(colorFill,ncol=ncol(eFBA),byrow = T)
+colorFill = c(as.vector(colorFill[c(1:4),]),as.vector(colorFill[c(5:8),]))
 
 # create scatter plot with gapped y-axis (separating two scales):
-eFBA = 10*eFBA
+f = 100
+eFBA = f*eFBA
 transformYdata <- function(x,from){pmin(x,from) + 0.05*pmax(x-from,0)}
-from = 1.5*max(eFBA)
-plot(x = rbind(totalMass,totalMass),
-     y = transformYdata(rbind(FBA,eFBA),from),
-     xlab = expression("hyphae dry weight [mg]"),
+from = 1.1*max(eFBA)
+plot(x = rep(as.vector(totalMass),2),
+     y = transformYdata(c(as.vector(FBA),as.vector(eFBA)),from),
+     xlab = expression("calculated growth rate ["*h^-1*"]"),
      ylab = expression("predicted growth rate ["*h^-1*"]"),
      yaxt = "n",
      cex.lab = cex.lab, cex=cex.points, cex.axis=cex.axis,
@@ -55,8 +71,8 @@ plot(x = rbind(totalMass,totalMass),
      bg = colorFill)
 
 # add y-axis
-yTickPos = c(0,0.001, 0.005,0.01,0.05,0.1,0.15)
-yTickLabels = c(0,c(0.001,0.005,0.01)/10,0.05,0.1,0.15)
+yTickPos = c(0,pretty(range(eFBA),2),1,1.5,2,2.5)
+yTickLabels = c(0,pretty(range(eFBA),2)/f,1,1.5,2,2.5)
 axis(side=2,at=round(transformYdata(yTickPos,from),4),
      labels = yTickLabels)
 
@@ -79,11 +95,11 @@ text(x = 0.03, y = c(.8,.3),
 )
 
 # add correlations
-cor.FBA = round(cor(x = as.vector(FBA),y=as.vector(totalMass),method = "spearman"),2)
-text(x = .5,y = .8,labels = bquote(rho[S] ~ "=" ~ .(as.character(cor.FBA))),
+corr.FBA = round(cor(x = as.vector(FBA),y=as.vector(totalMass),method = "spearman"),2)
+text(x = .5,y = .9,labels = bquote(rho[S] ~ "=" ~ .(as.character(corr.FBA))),
      cex = 1.1)
-cor.eFBA = round(cor(x = as.vector(eFBA),y=as.vector(totalMass),method = "spearman"),2)
-text(x = .5,y = .17,labels = bquote(rho[S] ~ "=" ~ .(as.character(cor.eFBA))),
+corr.eFBA = round(cor(x = as.vector(eFBA),y=as.vector(totalMass),method = "spearman"),2)
+text(x = .5,y = .17,labels = bquote(rho[S] ~ "=" ~ .(as.character(corr.eFBA))),
      cex = 1.1)
 
 # add legends for carbon sources and concentrations

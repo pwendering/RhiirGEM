@@ -78,7 +78,7 @@ s = optimizeCbModel(ecModel);
 if ~isempty(s.x)&&s.f>0
     solution = s.x;
     growth = solution(ecModel.c==1);
-    fprintf('\tobjective value: %.5f h^-1\n', growth)
+    fprintf('\tobjective value: %.4g h^-1\n', growth)
 else
     fprintf('\tno solution found!\n')
     growth = 0;

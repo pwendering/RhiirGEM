@@ -1,9 +1,9 @@
 Compartment	Reactions	Metabolites
-Cytosol	855	530
-Extracellular space	188	131
-Golgi apparatus	15	15
-Mitochrondria	1540	973
-Nucleus	18	18
-Endoplasmic reticulum	528	303
-Vacuole	15	11
-Peroxisomes	88	77
+cytoplasm	857	531
+extracellular	189	132
+Golgi	15	16
+mitochondrion	1352	973
+nucleus	18	18
+endoplasmic reticulum	528	309
+vacuole	15	11
+peroxisome	88	77

@@ -1,4 +1,4 @@
-Carbohydrates	57
+Carbohydrates	58
 Fatty acyls	148
 Glycans	15
 Lipids	290
@@ -8,6 +8,6 @@ Nucleic acids	99
 Organic acids	142
 Other	290
 Peptides	90
-Pseudometabolites	24
+Pseudometabolites	32
 Terpenoids	10
 Vitamins and Cofactors	54

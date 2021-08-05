@@ -10,4 +10,4 @@ Other	63
 Pseudoreaction	199
 Sink	33
 Terpenoid backbone biosynthesis	11
-Transport	272
+Transport	274

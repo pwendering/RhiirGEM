@@ -248,7 +248,6 @@ Metabolism of cofactors and vitamins
 Nucleotide metabolism
 Carbohydrate metabolism
 Metabolism of cofactors and vitamins
-Lipid and fatty acid metabolism
 Other
 Lipid and fatty acid metabolism
 Transport
@@ -374,7 +373,6 @@ Lipid and fatty acid metabolism
 Lipid and fatty acid metabolism
 Metabolism of cofactors and vitamins
 Amino acid metabolism
-Lipid and fatty acid metabolism
 Lipid and fatty acid metabolism
 Metabolism of cofactors and vitamins
 Amino acid metabolism
@@ -456,8 +454,6 @@ Transport
 Transport
 Transport
 Transport
-Transport
-Transport
 Lipid and fatty acid metabolism
 Lipid and fatty acid metabolism
 Carbohydrate metabolism
@@ -540,8 +536,6 @@ Carbohydrate metabolism
 Other
 Transport
 Transport
-Transport
-Lipid and fatty acid metabolism
 Lipid and fatty acid metabolism
 Pseudoreaction
 Lipid and fatty acid metabolism
@@ -770,177 +764,6 @@ Amino sugar and nucleotide sugar metabolism
 Amino sugar and nucleotide sugar metabolism
 Transport
 Transport
-Lipid and fatty acid metabolism
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
-Lipid and fatty acid metabolism
-Pseudoreaction
 Lipid and fatty acid metabolism
 Pseudoreaction
 Lipid and fatty acid metabolism
@@ -1092,6 +915,7 @@ Sink
 Sink
 Sink
 Sink
+Transport
 Amino acid metabolism
 Nucleotide metabolism
 Lipid and fatty acid metabolism
@@ -1263,7 +1087,6 @@ Metabolism of cofactors and vitamins
 Metabolism of cofactors and vitamins
 Carbohydrate metabolism
 Metabolism of cofactors and vitamins
-Lipid and fatty acid metabolism
 Other
 Transport
 Metabolism of cofactors and vitamins
@@ -1436,7 +1259,6 @@ Other
 Transport
 Transport
 Lipid and fatty acid metabolism
-Lipid and fatty acid metabolism
 Transport
 Lipid and fatty acid metabolism
 Transport
@@ -1517,6 +1339,7 @@ Amino acid metabolism
 Amino acid metabolism
 Transport
 Amino acid metabolism
+Transport
 Transport
 Transport
 Transport

@@ -8,7 +8,7 @@ writeToFile = T
 load("code/plotting/rhiir_gem_plotting.rdata")
 
 inputDir = "results/stats/"
-outputDir = "results/figures"
+outputDir = "results/figures/"
 
 if (writeToFile) {
   png(paste(outputDir, "model-stats.png", sep = ""), units = "cm",
@@ -19,7 +19,7 @@ if (writeToFile) {
 originalPar = par();
 
 # figure setting: 2 by 2 panels
-par(mfrow = c(2,2))
+par(mfrow = c(1,3))
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ read data from file ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
@@ -34,7 +34,7 @@ stat = list()
 stat$general = read_stat_file(paste(inputDir, "model_stats.txt", sep = ""))
 stat$subsystems = read_stat_file(paste(inputDir, "subsystem_rxns.txt", sep = ""))
 stat$subsystems = stat$subsystems[unlist(lapply(uniqueSubsystems,
-  function(x) which(gsub(names(stat$subsystems),pattern="\\.",replacement=" ")==x)))]
+                                                function(x) which(gsub(names(stat$subsystems),pattern="\\.",replacement=" ")==x)))]
 stat$metBRITE = read_stat_file(paste(inputDir, "met-brite.txt", sep = ""))
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ subsystems ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
@@ -66,7 +66,7 @@ stat$subsystems = stat$subsystems[idx]
 annotation = gsub("\\.", " ", names(stat$subsystems))
 
 # create pie plot
-par(mar = c(3,4,10,4)+0.1)
+par(mar = c(2,2,12,2)+0.1, xpd = T)
 pie(as.numeric(stat$subsystems),
     labels = NA,
     col = pie.col,
@@ -79,7 +79,7 @@ pie(as.numeric(stat$subsystems),
 # add a legend
 usr = par("usr")
 par(usr = c(0,1,0,1), xpd = T)
-legend(x=0,y=1.5, legend = annotation, fill = pie.col, cex = 1.1,
+legend(x=0,y=.85, legend = annotation, fill = pie.col, cex = 1.3,
        bty = "n")
 par(usr = usr)
 
@@ -113,7 +113,7 @@ pie.col = wes_palette("Royal1", length(stat$metBRITE),
                       type = "continuous")
 
 # create a pie plot
-par(mar = c(3,4,10,4)+0.1, xpd = T)
+par(mar = c(2,2,12,2)+0.1, xpd = T)
 pie(as.numeric(stat$metBRITE),
     labels = NA,
     col = pie.col,
@@ -125,7 +125,7 @@ pie(as.numeric(stat$metBRITE),
 # add a legend
 usr = par("usr")
 par(usr = c(0,1,0,1), xpd = T)
-legend(x=0,y=1.5, legend = annotation, fill = pie.col, cex = 1.1,
+legend(x=0,y=.85, legend = annotation, fill = pie.col, cex = 1.3,
        bty = "n")
 par(usr = usr)
 
@@ -135,13 +135,13 @@ n_rxns = stat$general$reactions
 
 # create data matrix
 rxn_general = matrix(c(stat$general$reactions_with_EC, n_rxns-stat$general$reactions_with_EC,
-                        stat$general$transport, n_rxns-stat$general$transport,
-                        stat$general$gpr, n_rxns-stat$general$gpr,
-                        n_rxns-stat$general$mass_imbalanced, stat$general$mass_imbalanced,
-                        n_rxns-stat$general$charge_imbalanced, stat$general$charge_imbalanced,
-                        n_rxns-stat$general$blocked, stat$general$blocked,
-                        1035, 537), # Gibbs energies
-                      nrow = 2)
+                       stat$general$transport, n_rxns-stat$general$transport,
+                       stat$general$gpr, n_rxns-stat$general$gpr,
+                       n_rxns-stat$general$mass_imbalanced, stat$general$mass_imbalanced,
+                       n_rxns-stat$general$charge_imbalanced, stat$general$charge_imbalanced,
+                       n_rxns-stat$general$blocked, stat$general$blocked,
+                       1035, 537), # Gibbs energies
+                     nrow = 2)
 
 # define row annotation for barplot
 annotation = c("E.C. assigned", "transport", "GPR rule", "mass-balanced", "charge-balanced",
@@ -152,16 +152,16 @@ annotation = c("E.C. assigned", "transport", "GPR rule", "mass-balanced", "charg
 bar.col = wes_palette("Royal1", ncol(rxn_general), type = "continuous")
 
 # create barplot
-par(mar = c(5, 10, 2, 2) + 0.1)
+par(mar = c(20, 10, 20, 0) + 0.1)
 rev_order = ncol(rxn_general):1
 x_lim = c(0,n_rxns)
 x = barplot(rxn_general[,rev_order],
-             beside = F,
-             horiz = T,
-             xaxt = "n",
-             col = bar.col,
-             xlim = x_lim,
-             space = .1
+            beside = F,
+            horiz = T,
+            xaxt = "n",
+            col = bar.col,
+            xlim = x_lim,
+            space = .1
 )
 
 # add row annotation
