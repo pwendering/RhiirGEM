@@ -70,7 +70,7 @@ Output files of these scripts are stored in the respective subdirectories of Rhi
 All figures were generated using R scripts (RhiirGEM/code/plotting/), which are named according to their output figure, which is stored at RhiirGEM/results/figures/.
 
 ## Reference
-**to be added**
+Wendering and Nikoloski (2022) mSystems 7(1): e01216-21. doi:10.1128/msystems.01216-21
 
  
 
